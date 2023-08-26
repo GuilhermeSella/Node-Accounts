@@ -1,14 +1,15 @@
 //Modulos externos
 const chalk = require("chalk")
 const inquirer = require('inquirer')
-
+const conn = require("./db/conn")
+const Cadastro = require("./Operações/acCadastro")
 
 //Modulos internos
 const fs = require('fs')
 const { default: Choices } = require("inquirer/lib/objects/choices")
 const { error, Console } = require("console")
 
-operation();
+
 
 function operation(){
     inquirer.prompt([{
@@ -48,7 +49,6 @@ function operation(){
     })
 }
 
-//Criando conta
 function createAccount(){
     console.log(chalk.bgGreen.black("Obrigado por escolher nosso banco!"))
     console.log(chalk.green("Defina as opções da sua conta"))
@@ -58,24 +58,17 @@ function Account(){
     inquirer.prompt([{
         name: "nameAccount",
         message:"Digite o seu nome:"
-    }])
+    },
+    {
+        name:""
+    }
+])
     .then((res) =>{
         const name = res['nameAccount']
         
-        if(!fs.existsSync('contas')){
-            fs.mkdirSync('contas')
-        }
+        
 
-        if(fs.existsSync(`contas/${name}.json`)){
-            console.log(chalk.bgRed.black('Essa conta já existe!'))
-            Account();
-        }
-
-        fs.writeFileSync(`contas/${name}.json`, '{"balance":0}', function(error){
-            console.log(error)
-        })
-
-        console.log(chalk.green("Parabéns sua conta foi criada!"))
+       
         operation();
 
     })
@@ -83,7 +76,6 @@ function Account(){
         console.log(error)
     })
 }
-
 
 //Função de Deposito.
 
@@ -244,3 +236,7 @@ function removeAmount(nameAccount,amount){
     operation();
 
 }
+
+conn.sync().then(()=>{
+    console.log("Conectado!")
+})

@@ -1,6 +1,20 @@
 {
   "dependencies": {
     "chalk": "^4.1.2",
-    "inquirer": "^8.0.0"
-  }
+    "inquirer": "^8.0.0",
+    "mysql2": "^3.6.0",
+    "nodemon": "^3.0.1",
+    "sequelize": "^6.32.1"
+  },
+  "name": "accounts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
