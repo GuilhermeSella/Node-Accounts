@@ -60,16 +60,17 @@ function Account(){
         message:"Digite o seu nome:"
     },
     {
-        name:""
-    }
+        name:"cpfCliente",
+        message:"Digite o seu cpf:"
+    },
 ])
     .then((res) =>{
         const name = res['nameAccount']
-        
-        
+        const cpf = res["cpfCliente"]
+        Cadastro(nome,cpf)
 
        
-        operation();
+        
 
     })
     .catch((error)=>{

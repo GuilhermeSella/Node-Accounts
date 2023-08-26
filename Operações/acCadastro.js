@@ -1,17 +1,12 @@
-const inquirer = require("inquirer")
-const chalk = require("chalk")
+const Cliente = require("../Model/Cliente.mjs")
 
-
-const Cadastro = ()=>{
-
+const Cadastro = async(nome,cpf)=>{
+    const cliente = await Cliente.create({
+        nomeCliente:nome,
+        cpfCliente:cpf,
+        saldoCliente:0
+    })
 }
-
-
-
-
-
-
-
 
 
 module.exports = Cadastro;
