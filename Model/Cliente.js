@@ -1,7 +1,7 @@
-import conn from "../db/conn"
-import { DataType, DataTypes } from "sequelize"
+import {conn} from "../db/conn.js"
+import { DataTypes } from "sequelize"
 
-const Cliente = conn.define("Cliente",{
+export const Cliente = conn.define("Cliente",{
     idCliente:{
         type: DataTypes.INTEGER,
         autoIncrement:true,
@@ -10,11 +10,13 @@ const Cliente = conn.define("Cliente",{
     nomeCliente:{
         type:DataTypes.STRING,
     },
-    cpfCliente:{
-        type:DataTypes.STRING(11)
+    senhaCliente:{
+        type:DataTypes.STRING
     },
     saldoCliente:{
         type:DataTypes.DECIMAL(15, 2) 
     }
     
+}, {
+    timestamps:false
 })

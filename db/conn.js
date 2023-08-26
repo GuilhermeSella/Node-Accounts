@@ -1,8 +1,6 @@
-const Sequelize = require("sequelize")
+import { Sequelize } from "sequelize"
 
-const conn = new Sequelize("accountNode", "root", "password",{
+export const conn = new Sequelize("accountNode", "root", "password",{
     host:"localhost",
     dialect:"mysql"
 })
-
-module.exports = conn;
