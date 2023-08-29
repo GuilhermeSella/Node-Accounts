@@ -1,6 +1,13 @@
-import { Sequelize } from "sequelize"
+import mysql from "mysql"
 
-export const conn = new Sequelize("accountNode", "root", "password",{
+export const conn = mysql.createConnection({
     host:"localhost",
-    dialect:"mysql"
+    database:"accountNode",
+    user:"root",
+    password:"password"
+});
+
+conn.connect((error)=>{
+    if(error)throw error;
+   
 })

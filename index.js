@@ -1,8 +1,8 @@
 //Modulos externos
 import chalk from "chalk"
 import inquirer from "inquirer"
-import {conn} from "./db/conn.js"
-import { Cadastro, Login } from "./Operações/acCliente.js"
+import { Cadastro } from "./Operações/acCliente.js"
+
 
 //Modulos internos
 
@@ -11,33 +11,31 @@ operation()
 function operation(){
     inquirer.prompt([{
         type:'list',
-        name:'action',
-        message:"",
+        name:'Inicio',
+        message:"Bem vindo ao nosso banco! O que você deseja?",
         choices:[   
             "Criar Conta",
-            "Login"
+            "Login",
         ],
     }])
     .then((res)=>{
-        const action = res['action']
-        if(action === "Criar Conta"){
-            createAccount();
+        const option = res['Inicio']
+
+        if(option == "Criar Conta"){
+            console.log(chalk.bgGreen.black("Obrigado por escolher nosso banco!"))
+            console.log(chalk.green("Defina as opções da sua conta"))
+            Account();
         } 
-        if(action == "Login"){
-            loginAccount()
+
+        else {
+            loginAccount();
         }
-
+       
     })
-    .catch((err)=>{
-        console.log(err)
-    })
+    .catch((error)=>console.log(error))
 }
 
-function createAccount(){
-    console.log(chalk.bgGreen.black("Obrigado por escolher nosso banco!"))
-    console.log(chalk.green("Defina as opções da sua conta"))
-    Account();
-}
+
 function Account(){
     inquirer.prompt([{
         name: "nameAccount",
@@ -57,12 +55,15 @@ function Account(){
         const senha = res["senhaCliente"]
         const confirmSenha = res['confirmsenhaCliente']
         if(senha === confirmSenha){
+            console.clear()
             console.log("Cadastro realizado com sucesso!")
             Cadastro(name,senha)
-            operation();
+            
         }
         else{
+            console.clear();
             console.log("As senhas não coincidem!")
+            Account();
         }
     })
     .catch((error)=>{
@@ -95,6 +96,3 @@ function loginAccount(){
 
 
 
-conn.sync().then(()=>{
-    console.log("Conectado!")
-})
