@@ -51,13 +51,13 @@ function Account(){
     }
 ])
     .then((res) =>{
-        const name = res['nameAccount']
+        const nome = res['nameAccount']
         const senha = res["senhaCliente"]
         const confirmSenha = res['confirmsenhaCliente']
         if(senha === confirmSenha){
             console.clear()
             console.log("Cadastro realizado com sucesso!")
-            Cadastro(name,senha)
+            Cadastro(nome,senha)
             
         }
         else{
