@@ -1,7 +1,7 @@
 //Modulos externos
 import chalk from "chalk"
 import inquirer from "inquirer"
-import { Cadastro } from "./Operações/acCliente.js"
+import { Cadastro, LoginConta } from "./Operações/acCliente.js"
 
 
 //Modulos internos
@@ -84,10 +84,26 @@ function loginAccount(){
         }
     ])
     .then((res)=>{
-        const nomeAccount = res['nomeAccount']
-        const senhaAccount = res["senhaAccount"]
-        Login(nomeAccount)
+        const nome = res['nomeAccount']
+        const senha = res["senhaAccount"]
+        const dadosConts =  LoginConta(nome, senha)
+        
     })
+}
+
+export function Dashboard(nome){
+    console.clear()
+    console.log(`Bem-vindo ${nome}!`)
+    inquirer.prompt([
+        {
+            type:"list",
+            message:"O que deseja?",
+            choices:[
+                "Ver saldo",
+                ""
+            ]
+        }
+    ])
 }
 
 
