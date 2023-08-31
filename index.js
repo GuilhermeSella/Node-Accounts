@@ -1,7 +1,7 @@
 //Modulos externos
 import chalk from "chalk"
 import inquirer from "inquirer"
-import { Cadastro, LoginConta } from "./QueryClientes/acCliente.js"
+import { Cadastro, LoginConta, SaldoConta } from "./QueryClientes/acCliente.js"
 
 
 //Modulos internos
@@ -24,7 +24,7 @@ export function operation(){
         if(option == "Criar Conta"){
             console.log(chalk.bgGreen.black("Obrigado por escolher nosso banco!"))
             console.log(chalk.green("Defina as opções da sua conta"))
-            Account();
+            CadastroConta();
         } 
 
         else {
@@ -36,7 +36,7 @@ export function operation(){
 }
 
 
-function Account(){
+function CadastroConta(){
     inquirer.prompt([{
         name: "nameAccount",
         message:"Digite o seu nome:"
@@ -63,7 +63,7 @@ function Account(){
         else{
             console.clear();
             console.log("As senhas não coincidem!")
-            Account();
+            CadastroConta();
         }
     })
     .catch((error)=>{
@@ -86,27 +86,66 @@ export function loginAccount(){
     .then((res)=>{
         const nome = res['nomeAccount']
         const senha = res["senhaAccount"]
-        const dadosConts =  LoginConta(nome, senha)
+        LoginConta(nome, senha)
         
     })
 }
 
-export function Dashboard(nome){
+
+export function Dashboard(nome, idCli){
     console.clear()
     console.log(`Bem-vindo ${nome}!`)
-    // inquirer.prompt([
-    //     {
-    //         type:"list",
-    //         message:"O que deseja?",
-    //         choices:[
-    //             "Ver saldo",
-    //             "Histórico de transações",
-    //             "Depositar",
-    //             "Sacar",
-    //             "Sair"
-    //         ]
-    //     }
-    // ])
+    inquirer.prompt([
+        {
+            type:"list",
+            name:"OptionUser",
+            message:"O que deseja?",
+            choices:[
+                "Ver saldo",
+                "Histórico de transações",
+                "Depositar",
+                "Sacar",
+                "Sair"
+            ]
+        }
+    ]).then((res)=>{
+        const OptionUser = res["OptionUser"];
+        if(OptionUser === "Ver saldo"){
+            VerSaldo(nome, idCli);
+        }
+        else if(OptionUser === "Histórico de transações"){
+
+        }
+        else if(OptionUser === "Depositar"){
+
+        }
+        else if(OptionUser === "Sacar"){
+
+        }
+        else{
+            console.clear()
+            operation();
+        }
+
+    })
+}
+
+
+function VerSaldo(nome, idCli){
+    console.log(`${nome} o saldo da sua conta é de:`)
+    SaldoConta(idCli);
+}
+
+function VerHistorico(){
+
+}
+
+function Depositar(){
+
+}
+
+function Sacar(){
+
 }
 
 

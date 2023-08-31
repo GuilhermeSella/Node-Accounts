@@ -24,11 +24,18 @@ export const LoginConta = async (nome, senha)=>{
             operation();
         }
         else if(result[0].nomeCli == nome && result[0].senhaCli == senha){
-            Dashboard(nome)
+            Dashboard(nome, result[0].idCli)
             
         }
         
        
     })
     
+}
+
+export const SaldoConta= (idCli)=>{
+    const query = `SELECT saldoCli FROM Contas WHERE idCli = ?`;
+    conn.query(query, [idCli], (error, result)=>{
+        console.log(result[0].saldoCli)
+    })
 }
