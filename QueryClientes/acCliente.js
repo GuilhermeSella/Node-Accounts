@@ -1,5 +1,5 @@
 import { conn } from "../db/conn.js"
-import { Dashboard } from "../index.js"
+import { Dashboard, operation } from "../index.js"
 
 export const Cadastro = (nome,senha)=>{
     let query = `INSERT INTO Contas (nomeCli, senhaCli, saldoCli) VALUES (?, ?, 0)`
@@ -18,12 +18,17 @@ export const LoginConta = async (nome, senha)=>{
             console.log(error)
         }
         
-        if(result[0].nomeCli == nome && result[0].senhaCli == senha){
-            Dashboard(nome)
-        }
-        else{
+        if(result.length == 0){
+            console.clear()
             console.log("Credenciais inválidas")
+            operation();
         }
+        else if(result[0].nomeCli == nome && result[0].senhaCli == senha){
+            Dashboard(nome)
+            
+        }
+        
+       
     })
     
 }

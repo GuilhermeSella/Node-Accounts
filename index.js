@@ -1,14 +1,14 @@
 //Modulos externos
 import chalk from "chalk"
 import inquirer from "inquirer"
-import { Cadastro, LoginConta } from "./Operações/acCliente.js"
+import { Cadastro, LoginConta } from "./QueryClientes/acCliente.js"
 
 
 //Modulos internos
 
 operation()
 
-function operation(){
+export function operation(){
     inquirer.prompt([{
         type:'list',
         name:'Inicio',
@@ -72,7 +72,7 @@ function Account(){
 }
 
 
-function loginAccount(){
+export function loginAccount(){
     inquirer.prompt([
         {
             name:"nomeAccount",
@@ -94,16 +94,19 @@ function loginAccount(){
 export function Dashboard(nome){
     console.clear()
     console.log(`Bem-vindo ${nome}!`)
-    inquirer.prompt([
-        {
-            type:"list",
-            message:"O que deseja?",
-            choices:[
-                "Ver saldo",
-                ""
-            ]
-        }
-    ])
+    // inquirer.prompt([
+    //     {
+    //         type:"list",
+    //         message:"O que deseja?",
+    //         choices:[
+    //             "Ver saldo",
+    //             "Histórico de transações",
+    //             "Depositar",
+    //             "Sacar",
+    //             "Sair"
+    //         ]
+    //     }
+    // ])
 }
 
 
