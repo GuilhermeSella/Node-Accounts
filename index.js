@@ -120,7 +120,7 @@ export function Dashboard(nome, idConta){
             Depositar(nome, idConta);
         }
         else if(OptionUser === "Sacar"){
-
+            Sacar(nome,idConta);
         }
         else{
             console.clear()
@@ -173,7 +173,28 @@ function Depositar(nome, idConta){
 
 }
 
-function Sacar(){
+function Sacar(nome, idConta){
+    inquirer.prompt([
+        {
+            name:"valorDeposito",
+            message:"Quanto deseja depositar?",
+            validate: function(value) {
+            var valid = !isNaN(parseFloat(value));
+            return valid || 'Por favor, insira um número válido';
+            },
+        }
+    ]).then((res)=>{
+        const valorDeposito = res["valorDeposito"]
+        acDepositar(valorDeposito, idConta)
+        inquirer.prompt([{
+            type: 'input',
+            name: 'Voltar',
+            message: 'Pressione enter para voltar...',
+            filter: () => {
+                return '';
+            }
+        }]).then(()=>Dashboard(nome,idConta));
+    })
 
 }
 

@@ -38,7 +38,7 @@ export const SaldoConta= (idConta)=>{
     const query = `SELECT saldoCli FROM Contas WHERE idConta = ?`;
     var saldo =  conn.query(query, [idConta], (error, result)=>{
         console.log(result[0].saldoConta)
-        return result[0].saldoConta
+       
         
     })
     return saldo;
@@ -52,6 +52,19 @@ export const acDepositar = (valorDeposito, idConta) => {
         }
         console.clear();
         console.log("Deposito realizado com sucesso! Valor: " + valorDeposito);
+
+    }))
+
+}
+
+export const Saque = (valorSaque, idConta)=>{
+    const query = `CALL Saque(?, ?)`
+    conn.query(query, [idConta, valorSaque], (error=>{
+        if(error){
+            console.log(error)
+        }
+        console.clear();
+        console.log("Saque realizado com sucesso! Valor: " + valorDeposito);
 
     }))
 
