@@ -1,7 +1,7 @@
 //Modulos externos
 import chalk from "chalk"
 import inquirer from "inquirer"
-import { Cadastro, LoginConta, SaldoConta } from "./QueryClientes/acCliente.js"
+import { Cadastro, LoginConta, SaldoConta, acDepositar } from "./QueryClientes/acCliente.js"
 
 
 //Modulos internos
@@ -92,7 +92,7 @@ export function loginAccount(){
 }
 
 
-export function Dashboard(nome, idCli){
+export function Dashboard(nome, idConta){
     console.clear()
     console.log(`Bem-vindo ${nome}!`)
     inquirer.prompt([
@@ -111,13 +111,13 @@ export function Dashboard(nome, idCli){
     ]).then((res)=>{
         const OptionUser = res["OptionUser"];
         if(OptionUser === "Ver saldo"){
-            VerSaldo(nome, idCli);
+            VerSaldo(nome, idConta);
         }
         else if(OptionUser === "Histórico de transações"){
-
+            VerHistorico();
         }
         else if(OptionUser === "Depositar"){
-
+            Depositar(nome, idConta);
         }
         else if(OptionUser === "Sacar"){
 
@@ -132,15 +132,44 @@ export function Dashboard(nome, idCli){
 
 
 function VerSaldo(nome, idCli){
-    console.log(`${nome} o saldo da sua conta é de:`)
-    SaldoConta(idCli);
+    const saldo = SaldoConta(idCli)
+    console.log(`${nome} o saldo da sua conta é de: ${saldo}`)
+    inquirer.prompt([{
+        type: 'input',
+        name: 'Voltar',
+        message: 'Pressione enter para voltar...',
+        filter: () => {
+            return '';
+        }
+    }]).then(()=>Dashboard(nome,idCli));
 }
 
 function VerHistorico(){
 
 }
 
-function Depositar(){
+function Depositar(nome, idConta){
+    inquirer.prompt([
+        {
+            name:"valorDeposito",
+            message:"Quanto deseja depositar?",
+            validate: function(value) {
+            var valid = !isNaN(parseFloat(value));
+            return valid || 'Por favor, insira um número válido';
+            },
+        }
+    ]).then((res)=>{
+        const valorDeposito = res["valorDeposito"]
+        acDepositar(valorDeposito, idConta)
+        inquirer.prompt([{
+            type: 'input',
+            name: 'Voltar',
+            message: 'Pressione enter para voltar...',
+            filter: () => {
+                return '';
+            }
+        }]).then(()=>Dashboard(nome,idConta));
+    })
 
 }
 
