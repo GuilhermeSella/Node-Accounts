@@ -46,27 +46,25 @@ export const SaldoConta= (idConta)=>{
 
 export const acDepositar = (valorDeposito, idConta) => {
     const query = `CALL Deposito(?, ?)`
-    conn.query(query, [idConta, valorDeposito], (error=>{
+    conn.query(query, [idConta, valorDeposito], (error)=>{
         if(error){
             console.log(error)
         }
         console.clear();
         console.log("Deposito realizado com sucesso! Valor: " + valorDeposito);
-
-    }))
+    })
 
 }
 
-export const Saque = (valorSaque, idConta)=>{
+export const acSaque = (valorSaque, idConta)=>{
     const query = `CALL Saque(?, ?)`
-    conn.query(query, [idConta, valorSaque], (error=>{
+    conn.query(query, [idConta, valorSaque], (error)=>{
         if(error){
             console.log(error)
         }
         console.clear();
-        console.log("Saque realizado com sucesso! Valor: " + valorDeposito);
-
-    }))
+        console.log("Saque realizado com sucesso! Valor: " + valorSaque);
+    })
 
 }
 

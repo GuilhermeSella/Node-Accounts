@@ -1,7 +1,7 @@
 //Modulos externos
 import chalk from "chalk"
 import inquirer from "inquirer"
-import { Cadastro, LoginConta, SaldoConta, acDepositar } from "./QueryClientes/acCliente.js"
+import { Cadastro, LoginConta, SaldoConta, acDepositar, acSaque } from "./QueryClientes/acCliente.js"
 
 
 //Modulos internos
@@ -176,16 +176,16 @@ function Depositar(nome, idConta){
 function Sacar(nome, idConta){
     inquirer.prompt([
         {
-            name:"valorDeposito",
-            message:"Quanto deseja depositar?",
+            name:"valorSaque",
+            message:"Quanto deseja sacar?",
             validate: function(value) {
             var valid = !isNaN(parseFloat(value));
             return valid || 'Por favor, insira um número válido';
             },
         }
     ]).then((res)=>{
-        const valorDeposito = res["valorDeposito"]
-        acDepositar(valorDeposito, idConta)
+        const valorSaque = res["valorSaque"]
+        acSaque(valorSaque, idConta)
         inquirer.prompt([{
             type: 'input',
             name: 'Voltar',
