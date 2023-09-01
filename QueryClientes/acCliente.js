@@ -45,25 +45,15 @@ export const SaldoConta= (idConta)=>{
 }
 
 export const acDepositar = (valorDeposito, idConta) => {
-    const querysaldo = `SELECT saldoConta FROM Contas WHERE idConta = ?`
-    conn.query(querysaldo, [idConta], (Error, result)=>{
-        const valorAtual = result[0].saldoConta
-       queryDeposito(valorAtual)
+    const query = `CALL Deposito(?, ?)`
+    conn.query(query, [idConta, valorDeposito], (error=>{
+        if(error){
+            console.log(error)
+        }
+        console.clear();
+        console.log("Deposito realizado com sucesso! Valor: " + valorDeposito);
 
-    })
-
-    function queryDeposito(saldoAtual){
-        const novoSaldo = saldoAtual + valorDeposito;
-        const query = `UPDATE Contas SET saldoConta = ? WHERE idConta = ?`
-        conn.query(query, [novoSaldo, idConta], (error)=>{
-            if(error){
-                console.log(error)
-            }
-            console.clear();
-            console.log("Deposito realizado com sucesso! Valor: " + valorDeposito);
-        })
-        
-    }
+    }))
 
 }
 
