@@ -1,7 +1,7 @@
 //Modulos externos
 import chalk from "chalk"
 import inquirer from "inquirer"
-import { Cadastro, LoginConta, SaldoConta, acDepositar, acSaque } from "./QueryClientes/acCliente.js"
+import { Cadastro, LoginConta, SaldoConta, acDepositar, acSaque, acPagamento } from "./QueryClientes/acCliente.js"
 
 
 //Modulos internos
@@ -9,12 +9,13 @@ import { Cadastro, LoginConta, SaldoConta, acDepositar, acSaque } from "./QueryC
 operation()
 
 export function operation(){
+    console.clear()
     inquirer.prompt([{
         type:'list',
         name:'Inicio',
-        message:"Bem vindo ao nosso banco! O que você deseja?",
+        message: chalk.bgGreen.white("Bem vindo ao nosso banco! O que você deseja?"),
         choices:[   
-            "Criar Conta",
+            chalk.green("Criar Conta"),
             "Login",
         ],
     }])
@@ -22,8 +23,6 @@ export function operation(){
         const option = res['Inicio']
 
         if(option == "Criar Conta"){
-            console.log(chalk.bgGreen.black("Obrigado por escolher nosso banco!"))
-            console.log(chalk.green("Defina as opções da sua conta"))
             CadastroConta();
         } 
 
@@ -102,6 +101,7 @@ export function Dashboard(nome, idConta){
             message:"O que deseja?",
             choices:[
                 "Ver saldo",
+                "Realizar pagamento",
                 "Histórico de transações",
                 "Depositar",
                 "Sacar",
@@ -122,6 +122,9 @@ export function Dashboard(nome, idConta){
         else if(OptionUser === "Sacar"){
             Sacar(nome,idConta);
         }
+        else if(OptionUser === "Realizar pagamento"){
+            Pagamento(idConta);
+        }
         else{
             console.clear()
             operation();
@@ -132,8 +135,8 @@ export function Dashboard(nome, idConta){
 
 
 function VerSaldo(nome, idCli){
-    const saldo = SaldoConta(idCli)
-    console.log(`${nome} o saldo da sua conta é de: ${saldo}`)
+    SaldoConta(nome, idCli)
+   
     inquirer.prompt([{
         type: 'input',
         name: 'Voltar',
@@ -142,10 +145,30 @@ function VerSaldo(nome, idCli){
             return '';
         }
     }]).then(()=>Dashboard(nome,idCli));
+    
+   
+}
+
+export function Pagamento(idConta){
+    inquirer.prompt([
+        {
+            name:"DestinatarioId",
+            message:"Digite o ID da conta que deseja realizar o pagamento"
+        },
+        {
+            name:"valorpagamento",
+            message:"Qual a quantia do pagamento?"
+        }
+    ])
+    .then((res)=>{
+        const Destinatario = res["DestinatarioId"];
+        const valor = res["valorpagamento"];
+        acPagamento(idConta, Destinatario, valor)
+    })
 }
 
 function VerHistorico(){
-
+    
 }
 
 function Depositar(nome, idConta){

@@ -1,5 +1,6 @@
+import chalk from "chalk/index.js"
 import { conn } from "../db/conn.js"
-import { Dashboard, operation } from "../index.js"
+import { Dashboard, operation, loginAccount } from "../index.js"
 
 export const Cadastro = (nome,senha)=>{
     let query = `INSERT INTO Contas (nomeConta, senhaConta, saldoConta) VALUES (?, ?, 0)`
@@ -8,6 +9,9 @@ export const Cadastro = (nome,senha)=>{
             console.log(err)
         }
     })
+    console.clear();
+    console.log("Entre com sua conta!")
+    loginAccount();
 }
 
 export const LoginConta = async (nome, senha)=>{
@@ -33,15 +37,17 @@ export const LoginConta = async (nome, senha)=>{
     
 }
 
-export const SaldoConta= (idConta)=>{
+export const SaldoConta= (nome, idConta)=>{
     
-    const query = `SELECT saldoCli FROM Contas WHERE idConta = ?`;
-    var saldo =  conn.query(query, [idConta], (error, result)=>{
-        console.log(result[0].saldoConta)
-       
+    const query = `SELECT saldoConta FROM Contas WHERE idConta = ?`;
+    conn.query(query, [idConta], (error, result)=>{
+        if(error){
+            console.log(error)
+        }
+        const saldo = result[0].saldoConta
+        console.log(`${nome} o saldo da sua conta é de: ${saldo}`)
         
     })
-    return saldo;
 }
 
 export const acDepositar = (valorDeposito, idConta) => {
@@ -63,9 +69,29 @@ export const acSaque = (valorSaque, idConta)=>{
             console.log(error)
         }
         console.clear();
-        console.log("Saque realizado com sucesso! Valor: " + valorSaque);
+        console.log("Saque realizado com sucesso! Valor do saque: " + valorSaque);
     })
 
+}
+
+export const acPagamento = ( idConta ,idDestinatario, valor)=>{
+    console.log(idConta);
+    const consultaSaldo = "SELECT saldoConta FROM Contas WHERE idConta = ?";
+    conn.query(consultaSaldo, [idConta], (error, result)=>{
+        if(error){
+            console.log(error)
+        }
+
+        const saldoConta = result[0].saldoConta;
+        if(valor < saldoConta){
+            console.log(chalk.red("Desculpe mas você não possui essa quantida em seu saldo atual"))
+            return
+        }
+        else{
+            const procedurePagamento = "";
+        }
+
+    })
 }
 
 export const Historico = ()=>{
