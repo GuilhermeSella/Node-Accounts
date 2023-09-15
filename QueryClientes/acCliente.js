@@ -1,4 +1,4 @@
-import chalk from "chalk/index.js"
+import chalk from "chalk"
 import { conn } from "../db/conn.js"
 import { Dashboard, operation, loginAccount } from "../index.js"
 
@@ -75,20 +75,27 @@ export const acSaque = (valorSaque, idConta)=>{
 }
 
 export const acPagamento = ( idConta ,idDestinatario, valor)=>{
-    console.log(idConta);
+  
     const consultaSaldo = "SELECT saldoConta FROM Contas WHERE idConta = ?";
     conn.query(consultaSaldo, [idConta], (error, result)=>{
+        
         if(error){
             console.log(error)
         }
-
+        
         const saldoConta = result[0].saldoConta;
-        if(valor < saldoConta){
+        
+        if(valor > saldoConta){
             console.log(chalk.red("Desculpe mas você não possui essa quantida em seu saldo atual"))
-            return
+            
         }
         else{
-            const procedurePagamento = "";
+            const procedurePagamento = "CALL Pagamento(?, ?, ?)";
+            conn.query(procedurePagamento, [idConta, idDestinatario, valor], (error)=>{
+                if(error){
+                    console.log(error)
+                }
+            })
         }
 
     })

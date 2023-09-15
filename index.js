@@ -162,7 +162,7 @@ export function Pagamento(idConta){
     ])
     .then((res)=>{
         const Destinatario = res["DestinatarioId"];
-        const valor = res["valorpagamento"];
+        const valor = parseInt(res["valorpagamento"]);
         acPagamento(idConta, Destinatario, valor)
     })
 }
